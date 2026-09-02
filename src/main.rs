@@ -24,7 +24,7 @@ fn main() {
             todo_list.mark_done(id);
         }
         cli::Commands::Add { title, priority } => {
-            // todo_list.mark_done(id);
+            todo_list.add(title, priority.clone());
         }
     }
     // let mut todo_list = todo::ToDo::load();

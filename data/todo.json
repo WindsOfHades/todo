@@ -40,5 +40,19 @@
     "priority": "Low",
     "done": false,
     "created_at": "2026-09-01 15:47:47"
+  },
+  {
+    "id": "59c07027-1006-4983-bba6-2582016a34fd",
+    "title": "new task from cli",
+    "priority": "Medium",
+    "done": false,
+    "created_at": "2026-09-02 23:23:09"
+  },
+  {
+    "id": "e79a0644-3e76-49f6-b090-fbd22e065f9d",
+    "title": "new from released cli",
+    "priority": "Low",
+    "done": false,
+    "created_at": "2026-09-02 23:30:51"
   }
 ]

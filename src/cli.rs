@@ -22,7 +22,7 @@ pub enum Commands {
         title: String,
         /// the priority of the task
         #[arg(short, long)]
-        priority: String,
+        priority: Priority,
     },
     /// remove a task
     Remove {

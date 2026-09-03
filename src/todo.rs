@@ -10,6 +10,10 @@ pub struct ToDo {
 }
 
 impl ToDo {
+    pub fn new() -> Self {
+        Self { tasks: Vec::new() }
+    }
+
     pub fn add(&mut self, title: &str, prio: priority::Priority) -> String {
         let id = uuid::Uuid::new_v4().to_string();
         self.tasks.push(Task::new(&id, title.to_string(), prio));

@@ -8,8 +8,11 @@ mod task;
 mod todo;
 
 fn main() -> Result<(), errors::ToDoError> {
-    let mut todo_list = todo::ToDo::load()?;
     let cli = cli::Cli::parse();
+    let mut todo_list = match todo::ToDo::load() {
+        Err(_) => todo::ToDo::new(),
+        Ok(todo) => todo,
+    };
 
     match &cli.command {
         cli::Commands::List => {

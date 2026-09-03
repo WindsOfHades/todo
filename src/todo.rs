@@ -1,3 +1,4 @@
+use crate::errors;
 use crate::priority;
 use crate::storage;
 use crate::task::Task;
@@ -9,10 +10,6 @@ pub struct ToDo {
 }
 
 impl ToDo {
-    pub fn new() -> Self {
-        Self { tasks: Vec::new() }
-    }
-
     pub fn add(&mut self, title: &str, prio: priority::Priority) -> String {
         let id = uuid::Uuid::new_v4().to_string();
         self.tasks.push(Task::new(&id, title.to_string(), prio));
@@ -41,14 +38,14 @@ impl ToDo {
         }
     }
 
-    pub fn save(&self) {
-        storage::save(&self.tasks);
+    pub fn save(&self) -> Result<(), errors::ToDoError> {
+        storage::save(&self.tasks)?;
+        Ok(())
     }
 
-    pub fn load() -> Self {
-        Self {
-            tasks: storage::load(),
-        }
+    pub fn load() -> Result<Self, errors::ToDoError> {
+        let tasks = storage::load()?;
+        Ok(Self { tasks: tasks })
     }
 
     pub fn stats(&self) {

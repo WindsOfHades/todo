@@ -34,6 +34,11 @@ pub enum Commands {
         /// the string id of the task
         id: String,
     },
+    /// mark as pending
+    Pending {
+        /// the string id of the task
+        id: String,
+    },
     /// give stats on the todo list items
     Stats,
 }

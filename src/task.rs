@@ -56,3 +56,37 @@ impl Display for Task {
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn create_a_task() {
+        let t = Task::new("1", "hi".to_string(), Priority::High);
+        assert_eq!(t.id, "1");
+        assert_eq!(t.title, "hi");
+        assert_eq!(t.priority, Priority::High);
+        assert!(!t.done);
+        let parsed = chrono::NaiveDateTime::parse_from_str(&t.created_at, "%Y-%m-%d %H:%M:%S");
+        assert!(parsed.is_ok());
+    }
+    #[test]
+    fn get_id() {
+        let t = Task::new("1", "hi".to_string(), Priority::High);
+        assert_eq!(t.id(), "1");
+    }
+
+    #[test]
+    fn get_prio() {
+        let t = Task::new("1", "hi".to_string(), Priority::High);
+        assert_eq!(t.priority(), &Priority::High);
+    }
+
+    #[test]
+    fn set_and_get_done() {
+        let mut t = Task::new("1", "hi".to_string(), Priority::High);
+        t.set_done(true);
+        assert!(t.is_done());
+    }
+}

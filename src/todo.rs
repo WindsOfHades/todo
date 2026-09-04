@@ -84,3 +84,48 @@ impl ToDo {
         self.tasks.iter_mut().find(|task| task.id() == id)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn new_todo() {
+        let todo = ToDo::new();
+        assert!(todo.tasks.is_empty());
+    }
+
+    #[test]
+    fn add_a_task() {
+        let mut todo = ToDo::new();
+        todo.add("hello", priority::Priority::High);
+        assert_eq!(todo.tasks.len(), 1);
+    }
+
+    #[test]
+    fn remove_a_task() {
+        let mut todo = ToDo::new();
+        let id = todo.add("hello", priority::Priority::High);
+        todo.remove(&id);
+        assert!(todo.tasks.is_empty());
+    }
+
+    #[test]
+    fn remove_a_non_existing_task() {
+        let mut todo = ToDo::new();
+        todo.add("hello", priority::Priority::High);
+        todo.remove("random_id");
+        assert_eq!(todo.tasks.len(), 1);
+    }
+
+    #[test]
+    fn mark_a_task_done_and_not_done() {
+        let mut todo = ToDo::new();
+        let id = todo.add("hello", priority::Priority::High);
+        assert!(!todo.get_task_by_id(&id).unwrap().is_done());
+        todo.mark_done(&id);
+        assert!(todo.get_task_by_id(&id).unwrap().is_done());
+        todo.mark_undone(&id);
+        assert!(!todo.get_task_by_id(&id).unwrap().is_done());
+    }
+}

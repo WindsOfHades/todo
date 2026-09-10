@@ -9,17 +9,21 @@ mod todo;
 
 fn main() -> Result<(), errors::ToDoError> {
     let cli = cli::Cli::parse();
-    let mut todo_list = match todo::ToDo::load() {
+
+    let path = std::path::PathBuf::new().join("data").join("todo.json");
+    let storage = storage::json_file::JsonFileStorage::new(path);
+
+    let mut todo_list = match todo::ToDo::load(&storage) {
         Err(_) => todo::ToDo::new(),
         Ok(todo) => todo,
     };
 
     match &cli.command {
         cli::Commands::List => {
-            todo_list.list();
+            println!("{}", todo_list.list());
         }
         cli::Commands::Stats => {
-            todo_list.stats();
+            println!("{}", todo_list.stats());
         }
         cli::Commands::Remove { id } => {
             todo_list.remove(id);
@@ -34,6 +38,6 @@ fn main() -> Result<(), errors::ToDoError> {
             todo_list.add(title, priority.clone());
         }
     }
-    todo_list.save()?;
+    todo_list.save(&storage)?;
     Ok(())
 }
